@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Engineer Portfolio</title>
+    <link href="dist/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-b from-gray-700 to-gray-900 text-gray-800">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-10 opacity-0 -translate-y-full transition duration-500 ease-in-out">
+        <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 bg-gray-100 bg-opacity-90 backdrop-blur-sm">
+            <div class="flex justify-between h-16 max-w-7xl mx-auto">
+                <div class="flex items-center">
+                    <a href="#home" class="text-xl font-bold text-gray-800">Kyle Downing</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#home" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Home</a>
+                    <a href="#about" class="text-gray-800 hover:text-indigo-600 px-3 py-2">About</a>
+                    <a href="#contact" class="text-gray-800 hover:text-indigo-600 px-3 py-2">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center text-white">
+        <div class="text-center max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-32">
+            <h1 id="hero-heading" class="text-4xl sm:text-5xl font-bold mb-10 opacity-0 translate-y-10">Hello, I'm Kyle Downing</h1>
+            <br>
+            <p id="hero-description" class="text-xl mb-16 opacity-0 translate-y-10">A passionate Software Engineer motivated to build innovative solutions</p>
+            <br><br><br>
+            <a href="#projects" class="inline-block bg-gray-100 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2">
+                    <img src="resources/IMG_2613.HEIC" alt="Profile" class="rounded-lg shadow-md" style="width: 90%;">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold text-center mb-12 text-white">About Me</h2>
+                    <p class="text-lg mb-4 text-gray-200">I'm a Computer Science Undergraduate student at Western Washington Universtiy eager to gain industry experience in Software Engineering. My expertise includes Java, Python, C.</p>
+                    <p class="text-lg mb-4 text-gray-200">I thrive on solving complex problems and am passionate about leveraging technology to create meaningful impact. In my free time, I enjoy Skateboarding, Working out, Photography, and outdoor activities.</p>
+                    <a href="/resources/DowningKyleResume.pdf" target="_blank" class="text-indigo-400 font-semibold hover:underline">Download My Resume</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-white">Get in Touch!</h2>
+            <div class="max-w-lg mx-auto">
+                <p class="text-lg text-center mb-6 text-gray-200"></p>
+                <div class="space-y-4">
+                    <p class="text-center">
+                        <a href="mailto:kyleshinya@gmail.com" class="text-indigo-400 hover:underline">kyleshinya@gmail.com</a>
+                    </p>
+                    <p class="text-center">
+                        <a href="https://www.linkedin.com/in/kyledowning/" target="_blank" class="text-indigo-400 hover:underline">LinkedIn</a>
+                    </p>
+                    <p class="text-center">
+                        <a href="https://github.com/kyledowning" target="_blank" class="text-indigo-400 hover:underline">GitHub</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>© 2025 Kyle Downing. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Animations and Smooth Scroll -->
+    <script>
+        // Hero text animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const heading = document.getElementById('hero-heading');
+            const description = document.getElementById('hero-description');
+
+            setTimeout(() => {
+                heading.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
+            }, 100);
+
+            setTimeout(() => {
+                description.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
+            }, 300);
+
+            // Smooth scroll for all anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+
+        // Navbar scroll animation
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.remove('opacity-0', '-translate-y-full');
+                navbar.classList.add('opacity-100', 'translate-y-0');
+            } else {
+                navbar.classList.remove('opacity-100', 'translate-y-0');
+                navbar.classList.add('opacity-0', '-translate-y-full');
+            }
+        });
+    </script>
+</body>
+</html>
