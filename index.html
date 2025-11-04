@@ -10,8 +10,8 @@
     <style>
         .fade-in {
             opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s ease, transform 1s ease;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .fade-in.visible {
@@ -19,20 +19,30 @@
             transform: translateY(0);
         }
 
+        /* Remove delays on mobile to prevent jank */
+        @media (max-width: 768px) {
+            .fade-in-delay-1,
+            .fade-in-delay-2,
+            .fade-in-delay-3 {
+                transition-delay: 0s !important;
+            }
+        }
+
         .fade-in-delay-1 {
-            transition-delay: 0.2s;
+            transition-delay: 0.1s;
         }
 
         .fade-in-delay-2 {
-            transition-delay: 0.4s;
+            transition-delay: 0.2s;
         }
 
         .fade-in-delay-3 {
-            transition-delay: 0.6s;
+            transition-delay: 0.3s;
         }
 
         .contact-icon {
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
+            will-change: transform;
         }
 
         .contact-icon:hover {
@@ -40,25 +50,26 @@
         }
 
         .project-card {
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            will-change: transform;
         }
 
         .project-card:hover {
             transform: translateY(-5px) scale(1.02);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
         }
 
-        @keyframes pulse-slow {
-            0%, 100% { opacity: 0.1; }
-            50% { opacity: 0.2; }
-        }
-
-        .animate-pulse-slow {
-            animation: pulse-slow 4s ease-in-out infinite;
+        /* Prevent layout shift during animations */
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
         }
     </style>
 </head>
@@ -304,16 +315,19 @@
                 });
             });
 
-            // Intersection Observer for scroll-triggered fade-in animations
+            // Improved Intersection Observer - only animate once
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.15,
+                rootMargin: '0px 0px -100px 0px'
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
+                    // Only add visible class if it hasn't been added yet
+                    if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
                         entry.target.classList.add('visible');
+                        // Stop observing this element after it's been animated
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
