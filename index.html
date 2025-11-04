@@ -7,71 +7,79 @@
     <script src="https://cdn.tailwindcss.com"></script>    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
+<style>
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    body {
+        font-family: 'Inter', sans-serif;
+        backface-visibility: hidden;
+    }
 
-        /* Remove delays on mobile to prevent jank */
-        @media (max-width: 768px) {
-            .fade-in-delay-1,
-            .fade-in-delay-2,
-            .fade-in-delay-3 {
-                transition-delay: 0s !important;
-            }
-        }
+    /* Fade-in animation */
+    .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        will-change: opacity, transform;
+    }
 
-        .fade-in-delay-1 {
-            transition-delay: 0.1s;
-        }
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        .fade-in-delay-2 {
-            transition-delay: 0.2s;
-        }
+    /* Delay classes */
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
 
+    /* Disable delays on mobile to prevent lag */
+    @media (max-width: 768px) {
+        .fade-in-delay-1,
+        .fade-in-delay-2,
         .fade-in-delay-3 {
-            transition-delay: 0.3s;
+            transition-delay: 0s !important;
         }
+    }
 
-        .contact-icon {
-            transition: transform 0.3s ease;
-            will-change: transform;
-        }
+    /* Hover animations */
+    .contact-icon,
+    .project-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        will-change: transform;
+        transform: translateZ(0);
+    }
 
-        .contact-icon:hover {
-            transform: translateY(-5px) scale(1.1);
-        }
+    .contact-icon:hover {
+        transform: translateY(-5px) scale(1.1);
+    }
 
-        .project-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            will-change: transform;
-        }
+    .project-card:hover {
+        transform: translateY(-5px) scale(1.02);
+    }
 
-        .project-card:hover {
-            transform: translateY(-5px) scale(1.02);
+    /* Accessibility: disable motion if user prefers reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            transition: none !important;
+            animation: none !important;
         }
+        .fade-in {
+            opacity: 1;
+            transform: none;
+        }
+    }
 
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
+    /* Fix Safari flicker */
+    img, svg {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+</style>
 
-        /* Prevent layout shift during animations */
-        @media (prefers-reduced-motion: reduce) {
-            .fade-in {
-                opacity: 1;
-                transform: none;
-                transition: none;
-            }
-        }
-    </style>
 </head>
 <body class="bg-gradient-to-b from-gray-100 to-gray-900 text-gray-900">
 
@@ -288,55 +296,57 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Animations and Smooth Scroll -->
     <script>
-        // Hero text animation
-        document.addEventListener('DOMContentLoaded', () => {
-            const heading = document.getElementById('hero-heading');
-            const description = document.getElementById('hero-description');
+    document.addEventListener('DOMContentLoaded', () => {
+        const heading = document.getElementById('hero-heading');
+        const description = document.getElementById('hero-description');
 
-            setTimeout(() => {
-                heading.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
-            }, 100);
-
+        // Initial hero text animation (non-blocking)
+        requestAnimationFrame(() => {
+            heading.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
             setTimeout(() => {
                 description.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
-            }, 300);
-
-            // Smooth scroll for all anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
-
-            // Improved Intersection Observer - only animate once
-            const observerOptions = {
-                threshold: 0.15,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    // Only add visible class if it hasn't been added yet
-                    if (entry.isIntersecting && !entry.target.classList.contains('visible')) {
-                        entry.target.classList.add('visible');
-                        // Stop observing this element after it's been animated
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all fade-in elements
-            document.querySelectorAll('.fade-in').forEach(element => {
-                observer.observe(element);
-            });
+            }, 250);
         });
+
+        // Smooth scroll polyfill (for Safari/Edge fallback)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                e.preventDefault();
+                const targetId = anchor.getAttribute('href').substring(1);
+                const el = document.getElementById(targetId);
+                if (!el) return;
+
+                if ('scrollBehavior' in document.documentElement.style) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    const top = el.getBoundingClientRect().top + window.pageYOffset;
+                    window.scrollTo({ top, left: 0 });
+                }
+            }, { passive: true });
+        });
+
+        // Efficient IntersectionObserver
+        const observer = new IntersectionObserver((entries, obs) => {
+            for (const entry of entries) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            }
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        // Observe fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Improve scroll responsiveness
+        window.addEventListener('scroll', () => {}, { passive: true });
+        window.addEventListener('touchmove', () => {}, { passive: true });
+    });
     </script>
+
 </body>
 </html>
