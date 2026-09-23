@@ -1,356 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Engineer Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kyle Downing, Software Engineer</title>
+<meta name="description" content="Kyle Downing, software engineer and Master's student in Computer Science at Western Washington University. Research tools, full-stack web applications, and applied LLM work.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0,0&display=block" rel="stylesheet">
+
 <style>
-    html {
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
+:root{
+  --paper:#E7EAE8;
+  --paper-raised:#F3F5F3;
+  --ink:#101614;
+  --ink-soft:#3A4844;
+  --muted:#65756F;
+  --line:#C9D0CC;
+  --spruce:#14312A;
+  --spruce-line:#2F534A;
+  --mint:#9FD4C3;
+  --glacier:#0F6B72;
+  --glacier-deep:#0A4D52;
+  --measure:64ch;
+  --pad:clamp(1.15rem,5vw,4.5rem);
+  --nav-h:3.5rem;
+}
 
-    body {
-        font-family: 'Inter', sans-serif;
-        backface-visibility: hidden;
-    }
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Archivo','Helvetica Neue',Arial,sans-serif;
+  font-size:clamp(1rem,0.97rem + 0.18vw,1.0625rem);
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:var(--glacier-deep);text-decoration-thickness:1px;text-underline-offset:3px;}
+a:hover{color:var(--ink);}
+:focus-visible{outline:2px solid var(--glacier);outline-offset:3px;border-radius:2px;}
 
-    /* Fade-in animation */
-    .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: opacity 0.6s ease, transform 0.6s ease;
-        will-change: opacity, transform;
-    }
+.wrap{max-width:1180px;margin:0 auto;padding-inline:var(--pad);}
+.skip{position:absolute;left:-9999px;}
+.skip:focus{left:1rem;top:1rem;position:fixed;z-index:30;background:var(--ink);color:var(--paper);padding:.6rem 1rem;border-radius:4px;}
+section[id],header[id]{scroll-margin-top:calc(var(--nav-h) + 1rem);}
 
-    .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.material-symbols-rounded{
+  font-family:'Material Symbols Rounded';
+  font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24;
+  line-height:1;user-select:none;
+  /* keep ligature names from flashing as text before the icon font arrives */
+  visibility:hidden;max-width:1.2em;overflow:hidden;
+}
+.icons-ready .material-symbols-rounded{visibility:visible;}
+.no-icons .material-symbols-rounded{display:none;}
+.no-icons .nav-mark::after{content:"{ }";font-weight:700;font-stretch:112%;font-size:1.05rem;}
 
-    /* Delay classes */
-    .fade-in-delay-1 { transition-delay: 0.1s; }
-    .fade-in-delay-2 { transition-delay: 0.2s; }
-    .fade-in-delay-3 { transition-delay: 0.3s; }
+/* ---------------- Nav ---------------- */
+.nav{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--line);
+}
+@supports not (backdrop-filter:blur(2px)){ .nav{background:var(--paper);} }
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:.75rem;height:var(--nav-h);}
+.nav-mark{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:2.25rem;height:2.25rem;margin-left:-.4rem;border-radius:4px;overflow:hidden;flex:none;
+  color:var(--ink);text-decoration:none;
+  transition:color .18s ease, background-color .18s ease;
+}
+.nav-mark .material-symbols-rounded{font-size:28px;}
+.nav-mark:hover{color:var(--glacier-deep);background:var(--paper-raised);}
+.nav-links{display:flex;gap:clamp(.85rem,3vw,1.9rem);align-items:center;}
+.nav-links a{
+  position:relative;color:var(--ink-soft);text-decoration:none;
+  font-size:clamp(.875rem,.82rem + .2vw,.9375rem);padding-block:.35rem;white-space:nowrap;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+  background:var(--glacier);transform:scaleX(0);transform-origin:left;
+  transition:transform .22s ease;
+}
+.nav-links a:hover{color:var(--glacier-deep);}
+.nav-links a:hover::after,.nav-links a.is-active::after{transform:scaleX(1);}
+.nav-links a.is-active{color:var(--ink);}
+.progress{
+  position:absolute;left:0;bottom:-1px;height:2px;width:100%;
+  background:var(--glacier);transform:scaleX(var(--p,0));transform-origin:left;
+}
 
-    /* Disable delays on mobile to prevent lag */
-    @media (max-width: 768px) {
-        .fade-in-delay-1,
-        .fade-in-delay-2,
-        .fade-in-delay-3 {
-            transition-delay: 0s !important;
-        }
-    }
+/* ---------------- Hero ---------------- */
+.hero{position:relative;padding-block:clamp(3.25rem,11vw,7rem) clamp(3rem,8vw,5.5rem);overflow:hidden;}
+.topo{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+  color:#93A69F;opacity:.42;
+  -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 42%, transparent 92%);
+  mask-image:linear-gradient(to bottom, #000 0%, #000 42%, transparent 92%);
+}
+.topo svg{width:100%;height:100%;display:block;}
+.hero > .hero-content{position:relative;z-index:1;}
+.hero h1{
+  margin:0;
+  font-stretch:125%;font-variation-settings:'wdth' 125;font-weight:600;
+  font-size:clamp(3rem,13vw,8.5rem);
+  line-height:.86;letter-spacing:-.035em;
+}
+.hero h1 span{display:block;}
+.hero-rule{height:1px;background:var(--line);margin:clamp(1.4rem,4vw,2.4rem) 0 clamp(1.2rem,3vw,1.9rem);}
+.hero-lede{
+  max-width:52ch;
+  font-size:clamp(1.0625rem,1rem + .45vw,1.375rem);
+  line-height:1.5;color:var(--ink-soft);margin:0 0 1rem;
+}
+.hero-sub{max-width:var(--measure);color:var(--muted);margin:0 0 2rem;}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem;}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.72rem 1.3rem;border-radius:3px;
+  font-weight:600;font-size:.9375rem;text-decoration:none;
+  border:1px solid var(--ink);
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+}
+.btn .material-symbols-rounded{font-size:19px;}
+.btn-solid{background:var(--ink);color:var(--paper);}
+.btn-solid:hover{background:var(--glacier-deep);border-color:var(--glacier-deep);color:#fff;}
+.btn-quiet{background:transparent;color:var(--ink);border-color:var(--line);}
+.btn-quiet:hover{border-color:var(--ink);background:var(--paper-raised);color:var(--ink);}
 
-    /* Hover animations */
-    .contact-icon,
-    .project-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        will-change: transform;
-        transform: translateZ(0);
-    }
+/* one page-load reveal, nothing on scroll */
+.reveal{opacity:0;transform:translateY(14px);}
+.ready .reveal{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease;}
+.ready .reveal-2{transition-delay:.12s;}
+.ready .reveal-3{transition-delay:.22s;}
 
-    .contact-icon:hover {
-        transform: translateY(-5px) scale(1.1);
-    }
+/* ---------------- Sections ---------------- */
+.section{padding-block:clamp(3.25rem,8vw,5.5rem);}
+.section-title{
+  font-stretch:118%;font-variation-settings:'wdth' 118;font-weight:600;
+  font-size:clamp(1.45rem,1.2rem + 1.4vw,2.25rem);
+  letter-spacing:-.02em;line-height:1.1;margin:0 0 clamp(1.75rem,4vw,2.5rem);
+}
+h3{font-size:1.125rem;font-weight:600;letter-spacing:-.01em;margin:0;}
 
-    .project-card:hover {
-        transform: translateY(-5px) scale(1.02);
-    }
+/* ---------------- About ---------------- */
+.about{background:var(--spruce);color:#DDE7E3;}
+.about a{color:var(--mint);}
+.about a:hover{color:#fff;}
+.about .section-title{color:#fff;}
+.about-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(1.75rem,4vw,3.25rem);}
+.portrait-frame{width:100%;max-width:300px;}
+.portrait{
+  width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center 22%;
+  border-radius:4px;border:1px solid var(--spruce-line);background:#0E2621;
+}
+.about-prose p{max-width:var(--measure);color:#C9D8D3;margin:0 0 1.1rem;}
+.about-prose p:last-of-type{margin-bottom:0;}
+.facts{margin:2.25rem 0 0;border-top:1px solid var(--spruce-line);}
+.fact{display:grid;grid-template-columns:minmax(0,1fr);gap:.1rem;padding:.95rem 0;border-bottom:1px solid var(--spruce-line);}
+.fact dt{color:var(--mint);font-weight:600;font-size:.9375rem;}
+.fact dd{margin:0;color:#C9D8D3;}
 
-    /* Accessibility: disable motion if user prefers reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-            transition: none !important;
-            animation: none !important;
-        }
-        .fade-in {
-            opacity: 1;
-            transform: none;
-        }
-    }
+/* ---------------- Projects ---------------- */
+.project{
+  padding:clamp(1.6rem,3.5vw,2.4rem) 0;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(.85rem,2.5vw,3rem);
+}
+.project:last-of-type{border-bottom:1px solid var(--line);}
+.project-head h3{font-stretch:110%;font-variation-settings:'wdth' 110;font-size:1.25rem;line-height:1.25;margin-bottom:.35rem;}
+.project-meta{color:var(--muted);font-size:.9375rem;margin:0 0 .5rem;}
+.project-link{display:inline-flex;align-items:center;gap:.3rem;font-size:.9375rem;word-break:break-word;}
+.project-link .material-symbols-rounded{font-size:16px;}
+.project-body p{margin:0 0 .85rem;max-width:var(--measure);color:var(--ink-soft);}
+.project-body ul{margin:0 0 1rem;padding-left:1.05rem;max-width:var(--measure);color:var(--ink-soft);}
+.project-body li{margin-bottom:.4rem;}
+.project-body li::marker{color:var(--glacier);}
+.project-body strong{color:var(--ink);font-weight:600;}
+.stack{font-size:.9375rem;color:var(--muted);margin:0;}
 
-    /* Fix Safari flicker */
-    img, svg {
-        transform: translateZ(0);
-        backface-visibility: hidden;
-    }
+/* ---------------- Toolkit ---------------- */
+.toolkit{display:grid;grid-template-columns:minmax(0,1fr);border-top:1px solid var(--line);}
+.tool-row{padding:1.15rem 0;border-bottom:1px solid var(--line);}
+.tool-row p{margin:.3rem 0 0;color:var(--ink-soft);}
+
+/* ---------------- Contact ---------------- */
+.contact{background:var(--paper-raised);border-top:1px solid var(--line);}
+.contact-note{max-width:var(--measure);color:var(--ink-soft);margin:0 0 1.75rem;}
+.mail{
+  display:inline-block;font-stretch:112%;font-variation-settings:'wdth' 112;font-weight:600;
+  font-size:clamp(1.25rem,.9rem + 2.6vw,2.75rem);
+  letter-spacing:-.025em;line-height:1.2;
+  color:var(--ink);text-decoration:none;
+  border-bottom:2px solid var(--line);
+  word-break:break-word;
+  transition:color .18s ease,border-color .18s ease;
+}
+.mail:hover{color:var(--glacier-deep);border-bottom-color:var(--glacier);}
+.elsewhere{display:flex;flex-wrap:wrap;gap:1rem 1.75rem;margin-top:2rem;}
+.elsewhere a{display:inline-flex;align-items:center;gap:.45rem;color:var(--ink-soft);text-decoration:none;font-size:.9375rem;}
+.elsewhere a:hover{color:var(--glacier-deep);text-decoration:underline;text-underline-offset:4px;}
+.elsewhere svg{width:18px;height:18px;flex:none;}
+.elsewhere .material-symbols-rounded{font-size:19px;}
+
+footer{background:var(--spruce);color:#93A9A2;padding-block:1.75rem;font-size:.875rem;}
+footer .wrap{display:flex;flex-wrap:wrap;gap:.35rem 1.5rem;justify-content:space-between;}
+
+/* ---------------- Breakpoints ---------------- */
+@media (min-width:600px){
+  .fact{grid-template-columns:minmax(140px,180px) minmax(0,1fr);gap:1.25rem;}
+}
+@media (min-width:760px){          /* tablet */
+  .about-grid{grid-template-columns:minmax(200px,280px) minmax(0,1fr);align-items:start;}
+  .toolkit{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(2rem,5vw,4rem);}
+  .project{grid-template-columns:minmax(200px,260px) minmax(0,1fr);}
+}
+@media (min-width:1000px){
+  .project{grid-template-columns:minmax(240px,320px) minmax(0,1fr);}
+}
+@media (max-width:420px){
+  .actions .btn{flex:1 1 100%;justify-content:center;}
+}
+@media (hover:none){
+  .nav-links a::after{transition:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .reveal{opacity:1;transform:none;}
+  *{transition:none!important;animation:none!important;}
+}
 </style>
-
 </head>
-<body class="bg-gradient-to-b from-gray-100 to-gray-900 text-gray-900">
 
-    <!-- Home Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center px-4">
-        <div class="text-center max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-20 sm:py-32 relative">
-            <h1 id="hero-heading" class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-10 opacity-0 translate-y-10 text-gray-900">
-                &lt; KyleDowning /&gt;
-            </h1>
-            
-            <p id="hero-description" class="text-lg sm:text-xl mb-12 sm:mb-16 opacity-0 translate-y-10 text-gray-800">
-                Incoming Masters student in 
-                <b class="bg-gradient-to-r from-blue-900 to-purple-400 text-transparent bg-clip-text">Computer Science</b>
-                 at <a href="https://cs.wwu.edu" target="_blank" class="font-semibold text-indigo-600 hover:text-indigo-800 transition-colors duration-300 underline decoration-2 decoration-indigo-400 hover:decoration-indigo-600">Western Washington University</a>
-            </p>
-            
-            <a href="#about" class="shadow-lg shadow-indigo-500 bg-indigo-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-indigo-900 hover:bg-indigo-700 transition-all duration-500">About me</a>
-        </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-        </div>
-    </section>
+<body>
+<a class="skip" href="#main">Skip to content</a>
 
-    <!-- About Section -->
-    <section id="about" class="py-12 sm:py-20 px-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="fade-in text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">About Me</h2>
-            
-            <div class="fade-in fade-in-delay-1 relative">
-                <!-- Decorative gradient border -->
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 rounded-2xl blur-sm opacity-30"></div>
-                
-                <div class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl overflow-hidden">
-                    <!-- Top decorative bar -->
-                    <div class="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500"></div>
-                    
-                    <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 p-6 sm:p-8 md:p-12">
-                        <div class="w-full lg:w-2/5">
-                            <div class="relative max-w-lg mx-auto">
-                                <!-- Glow effect around image -->
-                                <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-xl opacity-50"></div>
-                                <img src="resources/IMG_2613.jpg" alt="Profile" class="relative w-full rounded-xl shadow-2xl border-2 border-blue-700">
-                            </div>
-                        </div>
-                        <div class="w-full lg:w-3/5 text-gray-100">
-                            <div class="space-y-4 sm:space-y-5">
-                                <p class="text-base sm:text-lg leading-relaxed text-gray-200">
-                                    I'm a passionate Computer Science student at Western Washington University, specializing in software engineering with a strong academic and technical foundation. As I pursue my Master's degree, I'm actively seeking opportunities to apply my technical expertise in real-world applications.
-                                </p>
-                                
-                                <div class="border-l-4 border-purple-500 pl-4 bg-gray-700 bg-opacity-30 py-3 rounded-r-lg pr-2">
-                                    <p class="text-base sm:text-lg leading-relaxed text-gray-200">
-                                        I thrive on tackling complex challenges and building innovative solutions that make a tangible impact. My approach combines analytical thinking with creative problem-solving to deliver robust, scalable software.
-                                    </p>
-                                </div>
-                                
-                                <p class="text-base sm:text-lg leading-relaxed text-gray-200">
-                                    Beyond coding, I'm an avid skateboarder, fitness enthusiast, and <a href="photography.html" class="text-indigo-400 font-semibold hover:text-indigo-300 transition-colors underline decoration-2 decoration-indigo-500">photographer</a>. I believe in maintaining balance through outdoor adventures and creative pursuits. These activities fuel my creativity and keep me energized for my next technical challenge.
-                                </p>
-                                
-                                <!-- Skills Section - Hidden on Mobile -->
-                                <div class="hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-                                    <div class="bg-gray-700 bg-opacity-40 rounded-lg p-4 border border-gray-600">
-                                        <h3 class="text-indigo-300 font-semibold mb-3 flex items-center gap-2">
-                                            <i class="fas fa-code"></i> Languages
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span class="bg-indigo-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Java</span>
-                                            <span class="bg-indigo-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Python</span>
-                                            <span class="bg-indigo-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">HTML/CSS</span>
-                                            <span class="bg-indigo-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">C</span>
-                                            <span class="bg-indigo-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">JavaScript</span>
-                                            <span class="bg-indigo-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">SQL</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-gray-700 bg-opacity-40 rounded-lg p-4 border border-gray-600">
-                                        <h3 class="text-purple-300 font-semibold mb-3 flex items-center gap-2">
-                                            <i class="fas fa-tools"></i> Technologies
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span class="bg-purple-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">React</span>
-                                            <span class="bg-purple-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Node.js</span>
-                                            <span class="bg-purple-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Git</span>
-                                            <span class="bg-purple-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Linux</span>
-                                            <span class="bg-purple-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">LLM</span>
-                                            <span class="bg-purple-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Data Visualization</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-gray-700 bg-opacity-40 rounded-lg p-4 border border-gray-600">
-                                        <h3 class="text-blue-300 font-semibold mb-3 flex items-center gap-2">
-                                            <i class="fas fa-brain"></i> Specialties
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span class="bg-blue-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Algorithms</span>
-                                            <span class="bg-blue-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Data Structures</span>
-                                            <span class="bg-blue-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Full-Stack Development</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="bg-gray-700 bg-opacity-40 rounded-lg p-4 border border-gray-600">
-                                        <h3 class="text-green-300 font-semibold mb-3 flex items-center gap-2">
-                                            <i class="fas fa-users"></i> Soft Skills
-                                        </h3>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span class="bg-green-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Team Collaboration</span>
-                                            <span class="bg-green-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Problem Solving</span>
-                                            <span class="bg-green-600 bg-opacity-50 px-3 py-1 rounded-full text-sm">Communication</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="pt-4">
-                                    <a href="/resources/KyleDowningResume.pdf" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                                        <i class="fas fa-download"></i>
-                                        View My Resume
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative p-px rounded-xl border border-transparent bg-gradient-to-r from-blue-500 to-purple-500 my-8 sm:my-12"></div>
-    
-    <!-- Projects Section -->
-    <section id="projects" class="py-12 sm:py-20 px-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="fade-in text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">My Projects</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                <!-- Project 1 -->
-                <div class="fade-in fade-in-delay-1 project-card bg-gradient-to-br from-gray-800 to-gray-900 text-gray-100 rounded-xl p-5 sm:p-6 border border-gray-700 hover:border-indigo-500 shadow-lg hover:shadow-2xl hover:shadow-indigo-500/30">
-                    <a href="https://arc.cs.wwu.edu" target="_blank" title="ARC">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-pie-chart text-2xl sm:text-3xl text-indigo-400 mr-3"></i>
-                        <h3 class="text-lg sm:text-xl font-bold">Autism Research Collabaration</h3>
-                    </div>
-                    <p class="text-sm sm:text-base text-gray-300 mb-4">Built a full-stack data analysis application using React, Flask, and SQLite. Developed a dynamic data visualization dashbaord to deliver useful insights on specialized queries on our Autism database.</p>
-                    <div class="flex gap-2 flex-wrap">
-                        <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">React</span>
-                        <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">Flask</span>
-                        <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">SQL</span>
-                        <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">Data Visualization</span>
-                    </div>
-                    </a>
-                </div>
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="nav-mark" href="#top" aria-label="Kyle Downing, back to top">
+      <span class="material-symbols-rounded" aria-hidden="true">data_object</span>
+    </a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</nav>
 
-                <!-- Project 2 -->
-                <div class="fade-in fade-in-delay-2 project-card bg-gradient-to-br from-gray-800 to-gray-900 text-gray-100 rounded-xl p-5 sm:p-6 border border-gray-700 hover:border-purple-500 shadow-lg hover:shadow-2xl hover:shadow-purple-500/30">
-                    <a href="https://classroomcommunicationaide.github.io" target="_blank" title="cca">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-graduation-cap text-2xl sm:text-3xl text-purple-400 mr-3"></i>
-                        <h3 class="text-lg sm:text-xl font-bold">Classroom Communication Aid</h3>
-                    </div>
-                    <p class="text-sm sm:text-base text-gray-300 mb-4">Worked with a team of students to develop an ICT to target <b>SDGs 4 and 10</b>, focused on quality education and reduced inequalities. We are in the process of developing a full-stack web application that will serve as a communication aid and platform between ELLs and Teachers.</p>
-                    <div class="flex gap-2 flex-wrap">
-                        <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">Postgres</span>
-                        <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">JWT & OAuth</span>
-                        <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">Node.js</span>
-                    </div>
-                    </a>
-                </div>
+<main id="main">
 
-                <!-- Project 3 -->
-                <div class="fade-in fade-in-delay-3 project-card bg-gradient-to-br from-gray-800 to-gray-900 text-gray-100 rounded-xl p-5 sm:p-6 border border-gray-700 hover:border-blue-500 shadow-lg hover:shadow-2xl hover:shadow-blue-500/30">
-                    <a href="https://committee-finder.cs.wwu.edu" target="_blank" title="committee-finder">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-users text-2xl sm:text-3xl text-blue-400 mr-3"></i>
-                        <h3 class="text-lg sm:text-xl font-bold">WWU Committee Finder</h3>
-                    </div>
-                    <p class="text-sm sm:text-base text-gray-300 mb-4">Worked with a team to develop a web interface that used a web scraper pipeline with integrated AI to detect and preform data extraction on student committees across our university.</p>
-                    <div class="flex gap-2 flex-wrap">
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">React</span>
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">Web Scraping</span>
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm">LLM Integration</span>
-                    </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="topo" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="659,0 658,7 658,12 657,14 656,21 654,28 652,35 650,38 649,42 647,49 644,56 643,60 642,63 640,70 638,77 636,84 636,88 635,91 635,98 634,105 635,112 636,116 636,119 639,126 643,132 643,133 650,139 651,140 658,143 665,144 672,145 679,144 687,141 691,140 694,138 701,133 701,132 707,126 709,124 712,119 715,112 716,109 717,105 719,98 719,91 719,84 719,77 718,70 717,63 716,56 716,56 714,49 712,42 711,35 709,28 709,26 707,21 706,14 705,7 704,0"/><polyline points="617,0 616,14 615,28 613,35 611,49 608,63 606,70 603,84 601,98 600,112 601,126 603,140 606,149 613,160 620,167 628,173 636,177 650,181 658,182 667,181 679,180 694,176 701,172 711,167 720,160 728,153 734,147 739,140 745,128 748,119 751,105 752,91 752,77 751,63 749,49 747,35 746,21 745,14 744,0"/><polyline points="590,0 589,14 588,28 586,42 584,50 582,63 579,77 577,89 576,98 574,112 573,126 574,140 576,153 578,160 583,174 588,181 594,188 602,195 613,202 621,205 636,209 643,210 658,210 666,209 679,207 694,203 701,200 713,195 723,190 731,185 738,180 745,173 753,165 760,156 765,147 769,140 774,126 775,119 777,105 777,91 776,77 775,63 774,56 772,42 771,28 770,14 769,0"/><polyline points="0,70 7,70 9,70 15,69 22,67 29,65 37,63 37,63 44,59 50,56 51,55 58,50 60,49 66,43 67,42 72,35 73,34 77,28 80,21 80,19 82,14 84,7 84,0"/><polyline points="627,900 626,893 624,886 621,880 620,879 614,872 614,871 606,867 601,865 599,864 592,864 584,864 582,865 577,867 570,870 567,872 563,876 559,879 555,884 554,886 550,893 549,900"/><polyline points="566,0 566,14 564,28 563,42 562,49 559,63 557,77 555,84 553,98 551,112 549,126 549,140 549,153 550,167 553,181 555,189 562,202 567,209 573,216 581,223 592,230 599,233 611,237 621,239 636,240 650,239 664,237 672,236 687,232 694,229 709,224 716,221 725,216 737,209 745,204 753,198 760,192 767,185 774,177 782,167 786,160 789,153 795,140 797,133 799,119 800,105 799,91 798,77 796,64 795,56 793,42 791,28 790,14 790,0"/><polyline points="0,98 7,98 10,98 15,97 22,97 29,95 37,94 44,92 49,91 51,90 58,88 66,85 68,84 73,81 80,77 81,77 88,72 91,70 95,67 99,63 102,60 106,56 110,50 111,49 115,42 117,37 118,35 121,28 123,21 124,14 124,13 125,7 126,0"/><polyline points="654,900 653,893 652,886 651,879 650,877 648,872 646,865 643,860 642,858 637,851 636,850 630,844 628,843 621,838 619,837 614,835 606,833 599,833 592,833 584,834 577,836 574,837 570,839 563,842 558,844 555,846 548,850 547,851 541,856 538,858 533,863 531,865 526,872 526,872 521,879 519,885 518,886 516,893 515,900"/><polyline points="1505,900 1505,895 1505,893 1504,886 1503,879 1501,872 1499,865 1498,861 1496,858 1493,851 1490,845 1490,844 1485,837 1483,834 1480,830 1476,825 1473,823 1468,819 1462,816 1461,816 1454,815 1451,816 1447,817 1439,822 1438,823 1432,830 1432,830 1427,837 1425,841 1423,844 1420,851 1418,858 1417,859 1416,865 1414,872 1413,879 1412,886 1411,893 1411,900"/><polyline points="592,388 586,391 584,391 577,396 575,398 570,402 568,405 563,411 562,412 557,419 555,422 553,426 550,433 548,437 547,440 545,447 544,453 543,460 542,467 543,474 545,481 548,488 548,489 553,495 555,497 563,502 563,502 570,505 577,506 584,507 592,506 599,504 605,502 606,502 614,498 618,495 621,494 627,488 628,488 634,481 636,480 639,474 643,468 643,467 646,460 648,453 649,447 650,440 649,433 648,426 646,419 643,412 643,412 638,405 636,401 632,398 628,394 623,391 621,390 614,387 606,386 599,386 592,388"/><polyline points="543,0 543,14 542,28 541,37 539,49 537,63 534,77 533,84 530,98 528,112 526,123 525,133 523,147 522,160 522,174 523,188 525,202 527,209 532,223 535,230 541,240 548,250 555,258 561,265 568,272 575,279 581,286 588,293 591,307 584,317 577,325 570,334 563,342 558,349 553,356 548,363 541,374 535,384 531,391 526,400 520,412 517,419 511,432 509,440 504,453 502,460 499,474 498,488 499,502 503,516 507,523 512,530 519,537 530,544 541,549 548,551 563,554 577,554 592,552 599,551 614,546 621,543 631,537 642,530 650,524 658,517 665,509 670,502 675,495 679,488 685,474 687,467 689,453 690,440 689,426 687,415 684,405 679,391 676,384 672,376 665,363 660,356 654,349 649,342 643,335 636,326 628,317 622,307 628,297 636,291 643,286 654,279 665,274 672,270 683,265 694,260 701,256 712,251 723,245 731,242 738,237 750,230 760,223 767,218 774,212 782,206 789,198 796,190 802,181 807,174 811,167 817,153 819,147 821,133 822,119 822,105 821,91 818,77 817,70 815,56 812,42 811,32 810,21 809,7"/><polyline points="0,129 15,129 29,128 44,128 58,127 73,126 80,125 95,126 102,126 117,131 124,135 132,142 139,153 143,160 146,169 150,181 153,195 155,202 158,216 158,230 146,237 139,242 132,247 124,252 115,258 106,265 98,272 91,279 85,286 79,293 73,303 69,314 70,328 74,335 84,342 95,345 110,345 120,342 132,335 139,328 144,321 148,314 153,302 156,293 159,279 161,265 161,258 161,244 162,230 172,223 183,218 190,213 197,209 208,202 219,195 226,190 234,184 241,177 248,170 256,161 260,153 264,147 269,133 271,126 272,112 271,98 269,91 265,77 262,70 256,57 251,49 247,42 241,30 237,21 234,11 232,0"/><polyline points="674,900 673,893 673,886 672,883 672,879 670,872 668,865 666,858 665,854 664,851 661,844 658,838 657,837 652,830 650,828 646,823 643,820 638,816 636,815 628,811 624,809 621,808 614,807 606,806 599,807 592,808 584,809 584,809 577,811 570,814 564,816 563,817 555,820 549,823 548,824 541,828 538,830 533,833 528,837 526,838 519,844 519,844 511,851 511,851 504,858 504,858 498,865 497,867 494,872 490,879 489,880 487,886 485,893 484,900"/><polyline points="1534,900 1533,886 1530,872 1527,858 1525,851 1520,837 1518,830 1512,816 1510,809 1505,796 1503,788 1499,774 1498,767 1496,753 1497,740 1499,733 1504,719 1507,712 1512,703 1520,692 1525,684 1529,677 1534,668 1539,656 1541,642 1535,628 1530,621 1523,614 1513,607 1505,602 1498,599 1483,595 1468,597 1461,600 1452,607 1446,614 1439,627 1436,635 1433,649 1431,656 1430,670 1430,684 1430,698 1430,712 1429,726 1426,740 1425,747 1420,760 1417,768 1413,781 1410,788 1405,802 1402,809 1398,823 1395,831 1392,844 1389,858 1388,866 1387,879 1386,893"/><polyline points="1227,117 1220,121 1213,130 1210,140 1209,153 1211,167 1213,174 1218,188 1220,195 1226,209 1229,216 1235,227 1240,237 1244,244 1249,251 1257,260 1264,265 1279,271 1293,270 1301,265 1308,258 1314,244 1315,237 1317,223 1316,209 1315,202 1311,188 1308,180 1302,167 1298,160 1293,153 1286,145 1279,137 1271,131 1264,126 1250,119 1242,116 1227,117"/><polyline points="913,612 909,614 906,617 904,621 904,628 906,632 907,635 912,642 913,644 918,649 921,651 926,656 928,658 935,663 935,663 942,667 947,670 950,671 957,674 964,676 969,670 967,663 964,657 964,656 960,649 957,644 955,642 951,635 950,634 945,628 942,626 937,621 935,619 928,615 925,614 921,612 913,612"/><polyline points="520,0 519,14 519,22 518,35 516,49 513,63 511,74 509,84 506,98 504,109 502,119 499,133 497,143 495,153 492,167 490,181 490,195 490,209 492,223 496,237 498,244 503,258 506,265 511,278 514,286 518,300 519,307 519,321 519,328 516,342 512,356 510,363 504,377 502,384 497,396 493,405 489,413 484,426 481,433 476,447 473,453 469,467 467,474 464,488 462,502 462,516 464,530 468,541 473,551 478,558 485,565 495,572 504,577 511,580 526,585 533,587 548,590 563,592 577,592 592,591 606,588 614,586 628,580 636,577 644,572 655,565 665,559 672,553 679,547 687,541 694,534 701,526 708,516 712,509 716,501 720,488 722,474 723,460 723,447 722,433 720,419 717,405 716,398 713,384 709,370 707,363 703,349 701,337 700,328 701,318 705,307 709,300 716,291 723,284 731,278 738,272 748,265 759,258 767,252 774,247 782,242 789,236 796,230 804,223 811,216 818,208 826,198 832,188 835,181 840,170 843,160 846,147 847,133 846,119 844,105 842,91 840,84 837,70 834,56 832,49 830,35 828,21 827,7"/><polyline points="0,432 15,431 29,429 44,426 51,424 66,421 76,419 88,416 102,412 110,410 124,405 132,402 141,398 153,391 161,385 168,379 175,371 182,363 187,356 191,349 197,336 201,328 205,320 210,307 213,300 219,287 223,279 227,272 234,261 240,251 245,244 251,237 256,230 263,222 270,214 278,205 285,196 290,188 295,181 300,173 305,160 308,153 311,140 313,126 313,112 312,98 310,84 307,71 305,63 301,49 299,42 295,28 293,14 292,5"/><polyline points="1600,589 1585,587 1578,586 1563,580 1556,577 1546,572 1534,566 1527,562 1520,558 1507,551 1498,546 1490,543 1476,538 1468,536 1454,536 1447,538 1437,544 1430,551 1424,558 1417,568 1411,579 1407,586 1403,596 1398,607 1395,614 1390,628 1387,635 1384,649 1381,663 1381,670 1380,684 1380,698 1381,709 1381,719 1382,733 1381,747 1381,756 1380,767 1378,781 1376,795 1374,809 1372,816 1370,830 1368,844 1366,858 1366,865 1365,879 1364,893"/><polyline points="0,786 7,786 15,786 22,786 29,786 37,787 44,787 51,787 58,786 66,785 73,784 80,782 82,781 88,778 93,774 95,773 99,767 102,762 103,760 105,753 106,747 106,740 105,733 104,726 102,720 102,719 99,712 96,705 95,703 92,698 88,691 88,691 83,684 80,680 78,677 73,671 72,670 66,663 66,662 60,656 58,654 53,649 51,647 46,642 44,640 37,635 37,634 29,629 28,628 22,625 15,621 14,621 7,619 0,617"/><polyline points="691,900 691,893 691,886 690,879 689,872 688,865 687,859 687,858 685,851 683,844 681,837 679,833 678,830 675,823 672,817 672,816 668,809 665,805 663,802 658,796 657,795 650,790 648,788 643,785 636,782 635,781 628,779 621,778 614,778 606,779 599,780 592,781 592,782 584,784 577,786 572,788 570,789 563,793 557,795 555,796 548,800 543,802 541,804 533,808 531,809 526,812 520,816 519,817 511,822 509,823 504,827 499,830 497,832 490,837 489,837 482,843 481,844 475,850 474,851 468,857 467,858 461,865 460,866 456,872 453,877 452,879 449,886 447,893 446,900"/><polyline points="1563,900 1563,893 1562,886 1561,879 1560,872 1558,865 1556,860 1556,858 1554,851 1551,844 1549,837 1549,837 1547,830 1545,823 1542,816 1542,813 1541,809 1539,802 1538,795 1537,788 1536,781 1536,774 1536,767 1537,760 1539,753 1541,747 1542,745 1544,740 1548,733 1549,731 1553,726 1556,722 1559,719 1563,714 1567,712 1571,708 1577,705 1578,704 1585,701 1593,699 1599,698 1600,698"/><polyline points="1205,41 1198,46 1191,53 1184,62 1179,70 1174,77 1169,88 1165,98 1162,109 1160,119 1159,133 1160,147 1162,153 1165,167 1169,178 1173,188 1176,197 1181,209 1184,216 1189,230 1192,237 1196,251 1199,258 1203,272 1206,279 1212,293 1216,300 1221,307 1228,314 1237,321 1249,327 1257,330 1271,333 1280,335 1293,336 1308,337 1322,336 1330,334 1344,328 1352,323 1359,315 1364,307 1367,300 1372,286 1374,278 1376,265 1377,251 1377,237 1376,223 1374,211 1372,202 1367,188 1365,181 1359,168 1355,160 1351,153 1344,143 1337,133 1331,126 1325,119 1319,112 1312,105 1305,98 1298,91 1290,84 1282,77 1274,70 1266,63 1257,56 1249,50 1242,46 1235,42 1220,38 1205,41"/><polyline points="869,551 862,553 852,558 842,565 836,572 832,579 829,593 829,607 833,621 835,628 840,639 846,649 851,656 857,663 863,670 869,677 877,684 884,691 892,698 899,705 907,712 915,719 923,726 932,733 941,740 950,746 957,750 964,754 979,760 986,763 1001,766 1012,767 1023,768 1032,767 1045,766 1059,763 1069,760 1081,756 1089,753 1103,747 1111,744 1119,740 1132,733 1140,728 1147,724 1158,719 1169,712 1176,707 1184,702 1191,695 1198,684 1194,670 1185,663 1176,660 1162,657 1147,657 1132,657 1118,657 1107,656 1096,654 1081,650 1074,647 1063,642 1052,636 1045,631 1037,625 1030,619 1023,612 1016,605 1008,598 1001,590 994,584 986,577 979,572 969,565 957,559 950,556 935,551 928,550 913,548 899,547 884,548 869,551"/><polyline points="494,0 493,14 492,28 491,42 489,49 487,63 484,77 482,84 478,98 475,110 472,119 468,132 465,140 460,153 458,160 454,174 452,181 450,195 449,209 451,223 453,234 456,244 460,255 464,265 468,273 473,286 475,293 479,307 482,321 482,328 482,342 482,349 479,363 475,377 473,384 468,398 465,405 460,417 457,426 453,434 447,447 444,453 439,467 436,474 432,488 430,495 427,509 426,523 426,537 428,551 431,564 434,572 438,579 446,588 453,595 461,600 475,607 482,610 495,614 504,617 519,620 526,622 541,626 552,628 563,630 577,632 592,634 606,633 621,631 630,628 643,622 650,618 658,614 669,607 679,600 687,596 694,592 704,586 716,581 723,578 738,575 753,578 760,584 767,593 771,600 775,607 782,620 786,628 790,635 796,646 803,656 808,663 814,670 820,677 827,684 834,691 842,698 850,705 858,712 866,719 874,726 882,733 890,740 898,747 906,753 913,759 921,765 928,771 935,776 944,781 957,788 964,791 979,795 986,797 1001,799 1016,800 1030,800 1045,799 1059,797 1072,795 1081,794 1096,790 1104,788 1118,784 1127,781 1140,777 1147,774 1162,768 1169,766 1181,760 1191,756 1198,753 1213,747 1220,743 1229,740 1242,733 1249,729 1258,726 1271,719 1279,716 1292,712 1300,710 1309,712 1322,719 1328,726 1332,733 1337,741 1341,753 1344,767 1345,774 1346,788 1346,802 1346,816 1345,830 1345,844 1344,851 1343,865 1343,879 1343,893"/><polyline points="1159,0 1158,14 1155,28 1153,35 1148,49 1145,56 1140,69 1137,77 1132,88 1129,98 1126,112 1124,119 1123,133 1123,147 1125,157 1128,167 1132,180 1136,188 1140,198 1144,209 1147,216 1152,230 1154,238 1158,251 1160,265 1162,279 1162,286 1162,300 1162,314 1162,326 1162,330 1162,342 1169,355 1176,360 1186,363 1198,365 1213,367 1227,368 1242,369 1249,370 1264,372 1279,374 1293,376 1300,378 1315,381 1325,384 1337,387 1347,391 1359,396 1366,399 1377,405 1388,412 1395,418 1403,425 1407,433 1408,447 1408,460 1406,474 1403,488 1402,495 1398,509 1395,518 1392,530 1388,540 1384,551 1381,558 1374,572 1371,579 1366,587 1359,599 1354,607 1349,614 1343,621 1336,628 1328,635 1315,642 1308,644 1293,642 1286,640 1274,635 1264,631 1257,627 1244,621 1235,617 1227,613 1214,607 1205,603 1198,600 1184,593 1176,589 1169,586 1156,579 1147,574 1140,569 1132,564 1125,558 1118,550 1111,540 1105,530 1102,523 1099,509 1098,495 1100,481 1103,469 1105,460 1110,447 1112,440 1115,426 1118,412 1115,398 1103,391 1089,393 1079,398 1072,405 1067,414 1064,426 1063,440 1063,453 1063,467 1061,481 1059,488 1052,498 1045,504 1034,509 1023,512 1008,513 994,513 979,513 964,512 950,511 935,511 921,510 906,510 891,510 877,511 862,512 847,513 833,514 818,515 804,515 789,511 782,506 774,497 770,488 767,481 763,467 760,454 758,447 756,433 753,419 752,412 750,398 748,384 746,370 746,356 747,342 750,328 753,321 760,309 767,300 774,293 782,287 789,281 796,276 804,270 811,265 819,258 827,251 835,244 841,237 847,230 855,220 862,209 865,202 869,193 873,181 876,167 877,156 877,152 876,140 873,126 870,112 868,105 864,91 861,84 857,70 855,63 851,49 848,35 846,28 845,14 844,0"/><polyline points="1600,549 1585,547 1573,544 1563,541 1555,537 1542,530 1534,526 1527,521 1520,516 1510,509 1502,502 1493,495 1485,488 1477,481 1469,474 1462,467 1454,460 1447,453 1439,447 1432,440 1425,433 1420,426 1417,417 1416,405 1416,391 1417,377 1417,365 1418,356 1419,342 1421,328 1422,314 1425,300 1426,293 1428,279 1430,265 1431,251 1432,237 1431,223 1429,209 1425,195 1422,188 1417,177 1412,167 1408,160 1403,152 1395,142 1389,133 1384,126 1378,119 1372,112 1366,105 1359,96 1352,88 1344,80 1337,73 1330,65 1322,57 1316,49 1310,42 1305,35 1300,27 1294,14 1292,7"/><polyline points="0,830 15,831 29,834 41,837 51,841 61,844 73,849 80,852 95,858 102,860 117,859 124,857 133,851 141,844 147,837 153,828 161,816 164,809 168,797 170,788 171,774 169,760 168,753 162,740 159,733 153,722 147,712 143,705 138,698 132,689 124,680 117,671 110,663 105,656 99,649 93,642 87,635 80,627 73,617 66,608 60,600 55,593 51,586 44,574 39,565 36,558 33,544 33,530 37,519 41,509 45,502 51,495 58,487 66,480 73,474 83,467 95,460 102,457 110,453 124,447 132,443 140,440 153,433 161,430 168,426 179,419 188,412 195,405 202,398 207,391 212,383 219,370 223,363 226,354 232,342 235,335 241,321 244,314 248,306 255,293 259,286 264,279 270,270 278,260 285,251 291,244 297,237 304,230 310,223 316,216 322,209 329,200 336,189 340,181 343,174 348,160 350,147 351,140 351,126 350,119 349,105 346,91 343,80 341,70 337,56 335,49 332,35 330,21 329,12 328,0"/><polyline points="1600,837 1600,837 1593,833 1590,830 1585,824 1585,823 1582,816 1579,809 1578,806 1577,802 1576,795 1576,788 1577,781 1578,776 1579,774 1582,767 1585,763 1589,760 1593,758 1600,755"/><polyline points="708,900 708,886 707,872 705,858 703,844 701,834 699,823 695,809 693,802 688,788 685,781 679,771 672,761 665,753 658,747 650,743 638,740 628,739 619,740 606,743 597,747 584,753 577,756 570,761 558,767 548,773 541,777 533,782 522,788 511,794 504,799 497,803 484,809 475,814 468,818 457,823 446,829 438,832 427,837 416,842 409,845 398,851 388,858 381,865 376,872 372,879 368,893"/><polyline points="460,0 460,7 459,14 459,21 458,28 457,35 455,42 454,49 453,51 451,56 449,63 446,70 446,71 443,77 439,84 438,84 433,91 431,94 426,98 424,100 416,102 409,102 403,98 402,97 396,91 395,89 392,84 387,77 387,77 384,70 381,63 380,61 378,56 375,49 373,42 373,41 371,35 369,28 368,21 367,14 366,7 366,0"/><polyline points="1129,0 1128,14 1125,28 1124,35 1119,49 1116,56 1111,70 1108,77 1103,87 1098,98 1095,105 1090,119 1087,126 1084,140 1082,153 1084,167 1087,181 1090,188 1096,202 1099,209 1103,219 1107,230 1110,244 1111,251 1111,260 1108,272 1103,281 1096,289 1089,295 1076,300 1067,302 1052,304 1037,305 1023,304 1008,303 994,302 979,300 972,300 957,299 950,300 941,307 942,317 945,328 950,341 952,349 957,363 959,370 963,384 965,391 967,405 968,419 965,433 963,440 957,448 950,455 941,460 928,466 921,468 906,470 891,472 877,472 862,472 847,470 837,467 826,463 818,458 811,451 804,441 799,433 796,425 793,412 791,398 791,384 793,370 796,358 801,349 806,342 812,335 820,328 830,321 840,315 847,312 861,307 869,304 884,301 891,299 906,296 921,293 927,286 927,272 927,258 927,244 927,230 927,216 927,202 926,188 924,174 921,163 917,153 913,144 908,133 905,126 899,114 894,105 891,98 884,84 881,77 877,67 872,56 869,47 866,35 863,21 862,12 861,0"/><polyline points="1600,512 1585,510 1578,509 1563,503 1556,499 1549,495 1540,488 1532,481 1525,474 1518,467 1512,460 1505,451 1498,440 1493,433 1489,426 1483,412 1480,405 1476,393 1473,384 1470,370 1468,360 1467,349 1467,335 1468,321 1469,314 1471,300 1475,286 1476,279 1480,265 1483,253 1485,244 1487,230 1488,216 1486,202 1483,193 1478,181 1474,174 1468,165 1461,154 1455,147 1450,140 1444,133 1439,126 1432,117 1425,109 1417,100 1410,91 1404,84 1398,77 1392,70 1387,63 1381,55 1374,45 1366,35 1362,28 1359,21 1355,7"/><polyline points="727,900 726,886 726,872 725,858 724,844 723,834 723,823 721,809 720,795 720,781 719,767 718,753 718,740 718,726 719,712 723,698 729,691 738,687 753,689 760,691 773,698 782,702 789,706 799,712 811,719 818,723 826,728 833,733 842,740 852,747 861,753 869,760 877,767 884,773 891,780 899,786 906,792 913,798 921,804 929,809 942,816 950,820 961,823 972,826 986,828 1001,829 1016,829 1030,828 1045,827 1059,826 1074,824 1083,823 1096,821 1111,818 1120,816 1132,813 1145,809 1154,806 1166,802 1176,799 1186,795 1198,791 1205,788 1220,783 1227,780 1242,776 1249,774 1264,772 1279,773 1286,774 1298,781 1304,788 1308,795 1313,809 1315,818 1317,830 1318,844 1318,858 1319,872 1319,886 1319,900"/><polyline points="358,242 373,238 387,240 396,244 405,251 412,258 417,265 424,273 431,284 436,293 440,300 445,314 447,321 450,335 451,349 449,363 447,377 445,384 440,398 437,405 431,419 428,426 424,434 417,447 414,453 409,464 404,474 402,481 397,495 395,504 392,516 390,530 389,544 388,558 389,572 390,586 391,600 394,614 396,621 402,632 409,639 416,643 431,647 446,649 453,649 468,651 482,653 497,655 504,657 519,661 526,664 538,670 548,676 555,683 560,691 563,703 563,705 558,719 553,726 548,733 541,740 533,747 524,753 513,760 504,766 497,770 486,774 475,778 462,781 453,783 438,782 431,781 416,775 409,770 402,763 395,754 389,747 385,740 380,731 373,721 365,713 358,709 343,707 329,709 318,712 307,715 296,719 285,722 273,726 263,728 248,728 234,726 226,724 216,719 205,712 197,706 190,701 183,695 175,688 168,681 161,674 153,667 146,659 139,651 132,643 124,635 119,628 113,621 108,614 102,605 96,593 92,586 88,574 85,565 84,551 85,537 88,529 93,516 98,509 104,502 111,495 120,488 131,481 139,477 146,473 158,467 168,463 175,459 187,453 197,448 205,443 212,437 219,431 226,423 234,413 239,405 243,398 248,384 251,377 256,366 259,356 263,347 268,335 272,328 278,316 283,307 288,300 293,293 300,285 307,277 314,270 321,264 329,258 340,251 351,245 358,242"/><polyline points="1235,410 1249,408 1264,408 1279,409 1289,412 1300,415 1309,419 1321,426 1330,432 1337,439 1343,447 1347,453 1352,462 1356,474 1358,488 1359,495 1359,503 1358,516 1354,530 1352,538 1346,551 1342,558 1337,565 1330,573 1322,579 1309,586 1300,588 1286,590 1271,588 1264,586 1249,581 1242,578 1231,572 1220,565 1213,560 1205,553 1198,546 1191,537 1187,530 1184,523 1179,509 1177,495 1177,481 1179,467 1183,453 1186,447 1191,439 1198,430 1205,423 1213,418 1227,412 1235,410"/><polyline points="1105,0 1104,14 1103,21 1099,35 1096,44 1091,56 1087,63 1081,74 1075,84 1070,91 1065,98 1059,105 1052,114 1045,121 1037,128 1030,133 1018,140 1008,143 994,144 979,141 972,138 960,133 950,126 942,120 935,114 928,107 921,98 914,91 909,84 905,77 899,67 893,56 890,49 885,35 883,28 880,14 879,0"/><polyline points="1600,471 1585,469 1578,466 1567,460 1557,453 1549,447 1543,440 1537,433 1532,426 1527,417 1521,405 1518,398 1513,384 1511,377 1508,363 1507,349 1507,335 1509,321 1512,307 1514,300 1519,286 1522,279 1527,268 1532,258 1535,251 1541,237 1543,230 1546,216 1546,202 1543,188 1539,181 1534,173 1527,162 1520,153 1514,147 1508,140 1502,133 1496,126 1490,119 1483,111 1476,103 1468,94 1461,85 1455,77 1450,70 1445,63 1439,54 1432,42 1429,35 1425,25 1421,14 1419,0"/><polyline points="747,900 747,886 747,872 748,858 748,844 749,830 751,816 753,805 755,795 760,785 767,774 774,768 782,765 796,763 811,766 818,768 831,774 840,780 847,785 855,791 862,797 869,804 877,811 884,818 891,825 899,832 906,838 913,844 923,851 935,858 942,861 957,865 964,866 979,867 994,866 1001,865 1016,863 1030,862 1045,860 1059,859 1067,858 1081,857 1096,855 1111,853 1121,851 1132,849 1147,846 1154,844 1169,840 1176,837 1191,833 1199,830 1213,826 1227,823 1235,822 1249,823 1257,825 1267,830 1273,837 1279,846 1283,858 1286,872 1287,879 1288,893"/><polyline points="351,298 365,296 380,299 387,303 395,308 402,316 409,328 412,335 415,349 416,363 413,377 409,391 407,398 402,408 396,419 392,426 387,433 380,444 374,453 370,460 365,470 360,481 358,488 354,502 352,516 351,530 350,537 349,551 348,565 346,579 343,591 341,600 336,613 332,621 328,628 321,637 314,644 307,651 300,656 288,663 278,667 270,670 256,673 241,674 226,672 218,670 205,664 197,661 190,656 180,649 172,642 164,635 157,628 151,621 145,614 139,605 132,593 129,586 125,572 124,565 124,551 126,544 132,531 137,523 144,516 152,509 161,504 168,500 176,495 190,489 197,486 207,481 219,476 226,472 235,467 246,460 254,453 261,447 267,440 271,433 277,419 279,412 283,398 285,391 289,377 292,366 296,356 300,348 307,335 311,328 317,321 324,314 332,307 343,300 351,298"/><polyline points="1257,452 1264,451 1271,451 1279,452 1283,453 1286,454 1293,458 1296,460 1300,464 1304,467 1308,472 1309,474 1313,481 1315,487 1315,488 1317,495 1317,502 1316,509 1315,515 1315,516 1312,523 1308,530 1307,530 1300,537 1300,537 1293,541 1286,543 1279,543 1271,543 1264,541 1257,538 1255,537 1249,533 1245,530 1242,527 1238,523 1235,518 1233,516 1230,509 1228,502 1227,501 1227,495 1226,488 1227,482 1227,481 1230,474 1234,467 1235,466 1240,460 1242,459 1249,454 1252,453 1257,452"/><polyline points="1083,0 1082,7 1081,14 1081,15 1080,21 1078,28 1075,35 1074,38 1072,42 1069,49 1067,52 1064,56 1059,63 1059,63 1054,70 1052,72 1047,77 1045,79 1039,84 1037,85 1030,90 1029,91 1023,94 1016,97 1013,98 1008,99 1001,101 994,101 986,101 979,100 972,98 970,98 964,96 957,93 954,91 950,88 943,84 942,83 935,77 935,77 928,70 928,70 922,63 921,61 917,56 913,50 913,49 909,42 906,35 906,35 904,28 902,21 900,14 899,7 899,1 899,0"/><polyline points="1600,132 1593,131 1585,130 1578,127 1575,126 1571,124 1563,120 1562,119 1556,115 1552,112 1549,109 1543,105 1542,103 1535,98 1534,97 1528,91 1527,90 1521,84 1520,82 1515,77 1512,73 1510,70 1505,63 1505,63 1500,56 1498,52 1496,49 1492,42 1490,38 1489,35 1486,28 1484,21 1483,19 1482,14 1481,7 1480,0"/><polyline points="1600,415 1593,414 1587,412 1585,411 1578,406 1576,405 1571,400 1569,398 1564,391 1563,390 1560,384 1557,377 1556,375 1554,370 1553,363 1552,356 1551,349 1552,342 1553,335 1554,328 1556,321 1556,321 1559,314 1563,307 1563,306 1567,300 1571,296 1574,293 1578,289 1582,286 1585,284 1593,281 1600,279 1600,279"/><polyline points="777,900 777,893 777,886 778,879 778,872 779,865 781,858 782,854 783,851 785,844 789,837 789,837 795,830 796,829 804,825 811,824 818,825 826,827 831,830 833,831 840,837 841,837 847,844 848,844 854,851 855,853 859,858 862,864 863,865 867,872 869,879 870,879 872,886 873,893 874,900"/><polyline points="234,516 248,513 263,513 278,516 285,521 292,529 296,537 300,551 300,558 300,568 297,579 292,593 288,600 283,607 276,614 266,621 256,625 244,628 234,628 226,628 212,623 205,619 196,614 188,607 182,600 175,590 171,579 170,565 174,551 178,544 185,537 195,530 205,526 212,522 226,518 234,516"/><polyline points="1059,0 1058,7 1057,14 1055,21 1052,28 1052,28 1048,35 1045,40 1044,42 1038,49 1037,49 1030,56 1030,56 1023,61 1019,63 1016,65 1008,68 1001,69 997,70 994,70 986,70 983,70 979,69 972,68 964,65 961,63 957,61 950,56 950,56 942,49 942,49 936,42 935,41 931,35 928,29 927,28 925,21 923,14 921,7 921,0 921,0"/><polyline points="1028,0 1027,7 1024,14 1023,16 1020,21 1016,26 1013,28 1008,31 1001,35 1000,35 994,36 986,36 979,35 979,35 972,32 965,28 964,27 958,21 957,19 954,14 952,7 950,0"/>
+      </g>
+    </svg>
+  </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative p-px rounded-xl border border-transparent bg-gradient-to-r from-blue-500 to-purple-500 my-8 sm:my-12"></div>
+  <div class="wrap hero-content">
+    <h1 class="reveal"><span>Kyle</span><span>Downing</span></h1>
+    <div class="hero-rule reveal reveal-2"></div>
+    <p class="hero-lede reveal reveal-2">
+      Software engineer building research tools and full-stack web applications.
+    </p>
+    <p class="hero-sub reveal reveal-3">
+      Master's student in Computer Science at
+      <a href="https://cs.wwu.edu" target="_blank" rel="noopener">Western Washington University</a>,
+      with expected graduation in December 2026. Based near Seattle, Washington, and open to
+      software engineering roles starting January 2027.
+    </p>
+    <div class="actions reveal reveal-3">
+      <a class="btn btn-solid" href="resources/KyleDowningResume.pdf" target="_blank" rel="noopener">
+        <span class="material-symbols-rounded" aria-hidden="true">description</span>
+        Read my resume
+      </a>
+      <a class="btn btn-quiet" href="#work">See my work</a>
+    </div>
+  </div>
+</header>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-12 sm:py-20 px-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="fade-in text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Get in Touch!</h2>
-            <div class="max-w-lg mx-auto">
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-8">
-                    <a href="mailto:kyleshinya@gmail.com" class="fade-in fade-in-delay-1 contact-icon bg-gradient-to-br from-gray-800 to-gray-900 p-5 sm:p-6 rounded-xl border border-gray-700 hover:border-indigo-500 shadow-lg hover:shadow-2xl hover:shadow-indigo-500/30" title="Email">
-                        <i class="fas fa-envelope text-5xl sm:text-6xl bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/kyledowning/" target="_blank" class="fade-in fade-in-delay-2 contact-icon bg-gradient-to-br from-gray-800 to-gray-900 p-5 sm:p-6 rounded-xl border border-gray-700 hover:border-blue-500 shadow-lg hover:shadow-2xl hover:shadow-blue-500/30" title="LinkedIn">
-                        <i class="fab fa-linkedin text-5xl sm:text-6xl bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text"></i>
-                    </a>
-                    <a href="https://github.com/kyledowning" target="_blank" class="fade-in fade-in-delay-3 contact-icon bg-gradient-to-br from-gray-800 to-gray-900 p-5 sm:p-6 rounded-xl border border-gray-700 hover:border-purple-500 shadow-lg hover:shadow-2xl hover:shadow-purple-500/30" title="GitHub">
-                        <i class="fab fa-github text-5xl sm:text-6xl bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ================= ABOUT ================= -->
+<section class="about section" id="about">
+  <div class="wrap">
+    <h2 class="section-title">About</h2>
+    <div class="about-grid">
+      <div class="portrait-frame">
+        <img class="portrait" src="resources/IMG_2613.jpg" alt="Kyle Downing" loading="lazy">
+      </div>
+      <div class="about-prose">
+        <p>
+          I am a computer science student at Western Washington University, currently working on my
+          master's degree. Most of my experience so far is in university research software, where a
+          faculty member or research group has a vision and needs an application to implement it.
+        </p>
+        <p>
+          I work on features end to end, covering the database schema, the API, and the interface.
+          My projects have all been small teams under faculty supervision, so I am used to code
+          review, weekly demos to the people who will use the software, and documenting systems
+          well enough that the next group of students can pick them up.
+        </p>
+        <p>
+          Outside of school I skateboard, lift, and shoot photography.
+        </p>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6 border-t border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-sm sm:text-base">© 2025 Kyle Downing. All rights reserved.</p>
-        </div>
-    </footer>
+        <dl class="facts">
+          <div class="fact">
+            <dt>Current</dt>
+            <dd>Master's in Computer Science, Western Washington University. Expected December 2026.</dd>
+          </div>
+          <div class="fact">
+            <dt>Previous</dt>
+            <dd>BS in Computer Science, Western Washington University, [2025]</dd>
+          </div>
+          <div class="fact">
+            <dt>Coursework</dt>
+            <dd>Algorithms, Database Systems, Operating Systems, Computer Networks, Cryptography</dd>
+          </div>
+          <div class="fact">
+            <dt>Looking for</dt>
+            <dd>Backend, full-stack, or data infrastructure roles in the United States</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const heading = document.getElementById('hero-heading');
-        const description = document.getElementById('hero-description');
+<!-- ================= WORK ================= -->
+<section class="section" id="work">
+  <div class="wrap">
+    <h2 class="section-title">Selected work</h2>
 
-        // Initial hero text animation (non-blocking)
-        requestAnimationFrame(() => {
-            heading.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
-            setTimeout(() => {
-                description.classList.add('transition', 'duration-1000', 'ease-out', 'opacity-100', 'translate-y-0');
-            }, 250);
-        });
+    <article class="project">
+      <div class="project-head">
+        <h3>Autism Research Collaboration</h3>
+        <p class="project-meta">Full-stack developer, Sept 2024 to Mar 2025<br>Team of 4, WWU Computer Science</p>
+        </a>
+      </div>
+      <div class="project-body">
+        <p>
+          A web application that lets autism researchers query their study database directly.
+          Before it was built, every new question required someone on the team to write a one-off
+          SQL query by hand.
+        </p>
+        <ul>
+          <li>Built the <strong>Flask REST API</strong> and designed the <strong>SQLite schema</strong> behind it.</li>
+          <li>Implemented a <strong>parameterized query layer</strong> so researchers can filter the dataset without writing SQL and without exposing the database to injection.</li>
+          <li>Built the <strong>React dashboard</strong> that turns any query result into a chart, including the state management for filter selection and chart rendering.</li>
+          <li>Wrote the setup documentation and handed the codebase off to the next student team.</li>
+        </ul>
+        <p class="stack">React, Flask, Python, SQLite, Git</p>
+      </div>
+    </article>
 
-        // Smooth scroll polyfill (for Safari/Edge fallback)
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', e => {
-                e.preventDefault();
-                const targetId = anchor.getAttribute('href').substring(1);
-                const el = document.getElementById(targetId);
-                if (!el) return;
+    <article class="project">
+      <div class="project-head">
+        <h3>Lightning Network research</h3>
+        <p class="project-meta">Graduate research, 2025 to present<br>[Advised by Prof. X], WWU Computer Science</p>
+      </div>
+      <div class="project-body">
+        <p>
+          Lightning Network channels drain in one direction as payments route through them, and a
+          one-sided channel stops forwarding. The standard remedy is cyclic rebalancing, which
+          refills a channel with a circular self-payment and pays routing fees to do it. This
+          research asks whether a node can instead refill its channels by repricing its own
+          outbound fees and letting organic traffic do the work.
+        </p>
+        <ul>
+          <li>Built a <strong>discrete-event Lightning Network simulator</strong> in Python with no dependencies outside the standard library, modeling directional channel policies, <strong>HTLC atomicity</strong>, balance conservation, and route learning over synthetic <strong>Watts-Strogatz topologies</strong>.</li>
+          <li>Designed <strong>FLEX</strong>, a fee controller that pivots its fee curve on a user-specified target balance and discounts a channel only if it passes an <strong>edge betweenness centrality</strong> condition, leaving the rest at their original prices.</li>
+          <li>Evaluated FLEX against no intervention, cyclic rebalancing, and an unconditional fee controller across three capacity classes and 10 seeds each. FLEX restored drained channels fastest in every class, at <strong>650, 1,690, and 4,650 transactions</strong>.</li>
+          <li>FLEX earned more in <strong>all 30 paired runs</strong>, finishing the median class at <strong>236,839 sat</strong> net against 215,796 for the unconditional controller and 79,809 for cyclic rebalancing. Since both fee schemes apply identical fee magnitudes, the margin comes entirely from the discounts the condition withheld, at no cost to recovery speed.</li>
+        </ul>
+        <p class="stack">Python, discrete-event simulation, graph algorithms, matplotlib, LaTeX</p>
+      </div>
+    </article>
 
-                if ('scrollBehavior' in document.documentElement.style) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    const top = el.getBoundingClientRect().top + window.pageYOffset;
-                    window.scrollTo({ top, left: 0 });
-                }
-            }, { passive: true });
-        });
+    <article class="project">
+      <div class="project-head">
+        <h3>WWU Committee Finder</h3>
+        <p class="project-meta">Backend developer, [2025]<br>Team of [4], WWU Computer Science</p>
+        </a>
+      </div>
+      <div class="project-body">
+        <p>
+          A search tool for student governance committees at WWU. Committee listings and open seats
+          were spread across separate department pages in inconsistent formats, so students had no
+          practical way to find positions that were unfilled.
+        </p>
+        <ul>
+          <li>Built a <strong>web scraping pipeline</strong> in Python that crawls university pages on a schedule and normalizes the results into a single index.</li>
+          <li>Added an <strong>LLM extraction step</strong> that pulls structured fields, including committee name, purpose, open seats, and contact, out of unstructured HTML.</li>
+          <li>Wrote <strong>validation rules</strong> that reject malformed extractions before they reach the index.</li>
+          <li>Built the <strong>React</strong> interface for searching and filtering indexed committees.</li>
+        </ul>
+        <p class="stack">React, Python, web scraping, LLM integration, Git</p>
+      </div>
+    </article>
 
-        // Efficient IntersectionObserver
-        const observer = new IntersectionObserver((entries, obs) => {
-            for (const entry of entries) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    obs.unobserve(entry.target);
-                }
-            }
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -10% 0px'
-        });
+    <article class="project">
+      <div class="project-head">
+        <h3>Classroom Communication Aid</h3>
+        <p class="project-meta">Backend developer, [2025 to present]<br>Team of [4], WWU Computer Science</p>
+        <a class="project-link" href="https://classroomcommunicationaide.github.io" target="_blank" rel="noopener">
+          classroomcommunicationaide.github.io
+          <span class="material-symbols-rounded" aria-hidden="true">north_east</span>
+        </a>
+      </div>
+      <div class="project-body">
+        <p>
+          A messaging platform for English language learners, their teachers, and their families,
+          built against UN Sustainable Development Goals 4 and 10. Teachers and families frequently
+          share no common language, so routine school communication does not reach the people it is
+          meant for.
+        </p>
+        <ul>
+          <li>Designed the <strong>PostgreSQL schema</strong> covering users, classrooms, and message threads.</li>
+          <li>Implemented <strong>authentication</strong> with <strong>JWT</strong> sessions and <strong>OAuth</strong> sign-in.</li>
+          <li>Added <strong>role-based access control</strong> so teachers, students, and guardians each receive a different view of the same data.</li>
+          <li>Built the <strong>Node.js API layer</strong> that the client uses to send and retrieve messages.</li>
+        </ul>
+        <p class="stack">Node.js, PostgreSQL, JWT, OAuth, Git</p>
+      </div>
+    </article>
 
-        // Observe fade-in elements
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </div>
+</section>
 
-        // Improve scroll responsiveness
-        window.addEventListener('scroll', () => {}, { passive: true });
-        window.addEventListener('touchmove', () => {}, { passive: true });
-    });
-    </script>
+<!-- ================= TOOLKIT ================= -->
+<section class="section" id="toolkit">
+  <div class="wrap">
+    <h2 class="section-title">Toolkit</h2>
+    <div class="toolkit">
+      <div class="tool-row">
+        <h3>Languages</h3>
+        <p>Python, Java, JavaScript, SQL, C, HTML and CSS</p>
+      </div>
+      <div class="tool-row">
+        <h3>Frameworks and libraries</h3>
+        <p>React, Node.js, Flask, Tailwind CSS</p>
+      </div>
+      <div class="tool-row">
+        <h3>Data</h3>
+        <p>PostgreSQL, SQLite, relational schema design, scraping and ETL pipelines</p>
+      </div>
+      <div class="tool-row">
+        <h3>Infrastructure and tooling</h3>
+        <p>Git and GitHub, Linux, REST API design</p>
+      </div>
+      <div class="tool-row">
+        <h3>Practices</h3>
+        <p>Code review, Agile sprints, technical documentation, stakeholder demos</p>
+      </div>
+      <div class="tool-row">
+        <h3>Focus areas</h3>
+        <p>Algorithms and data structures, data visualization, LLM integration, web scraping, authentication and authorization</p>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- ================= CONTACT ================= -->
+<section class="contact section" id="contact">
+  <div class="wrap">
+    <h2 class="section-title">Get in touch</h2>
+    <p class="contact-note">
+      I am looking for software engineering roles starting January 2027. Email is the fastest
+      way to reach me, and I reply within a day.
+    </p>
+    <a class="mail" href="mailto:kyleshinya@gmail.com">kyleshinya@gmail.com</a>
+    <div class="elsewhere">
+      <a href="https://www.linkedin.com/in/kyledowning/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76V21h-4v-5.6c0-1.34-.03-3.06-1.9-3.06-1.9 0-2.2 1.46-2.2 2.96V21h-4z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/kyledowning" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.2c-3.34.73-4.04-1.42-4.04-1.42-.55-1.38-1.34-1.75-1.34-1.75-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5z"/></svg>
+        GitHub
+      </a>
+      <a href="resources/KyleDowningResume.pdf" target="_blank" rel="noopener">
+        <span class="material-symbols-rounded" aria-hidden="true">description</span>
+        Resume
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Kyle Downing</span>
+    <span>Seattle, Washington</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var doc = document.documentElement;
+
+  requestAnimationFrame(function(){ document.body.classList.add('ready'); });
+
+  /* Only show icon glyphs once the icon font is actually available */
+  function setIcons(ok){
+    if (/icons-ready|no-icons/.test(doc.className)) return;
+    doc.classList.add(ok ? 'icons-ready' : 'no-icons');
+  }
+  if (document.fonts && document.fonts.load){
+    document.fonts.load("24px 'Material Symbols Rounded'", 'data_object')
+      .then(function(faces){ setIcons(faces && faces.length > 0); })
+      .catch(function(){ setIcons(false); });
+    setTimeout(function(){ setIcons(false); }, 3000);
+  } else { setIcons(false); }
+
+  /* Reading progress in the nav rule */
+  var bar = document.querySelector('.progress'), ticking = false;
+  function progress(){
+    var max = doc.scrollHeight - window.innerHeight;
+    bar.style.setProperty('--p', max > 0 ? Math.min(window.scrollY / max, 1) : 0);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(progress); }
+  }, {passive:true});
+  progress();
+
+  /* Mark the section currently in view */
+  var links = {}, targets = [];
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(function(a){
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el){ links[el.id] = a; targets.push(el); }
+  });
+  if ('IntersectionObserver' in window && targets.length){
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ seen[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best = null, top = 0;
+      for (var id in seen){ if (seen[id] > top){ top = seen[id]; best = id; } }
+      for (var k in links){ links[k].classList.toggle('is-active', k === best); }
+    }, {threshold:[0,.2,.5,.8], rootMargin:'-20% 0px -45% 0px'});
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
 </body>
+</html>
 </html>
